@@ -1,0 +1,87 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+ name: xp-layers.crossplane.io
+ labels:
+  layer: composition
+  provider: aws
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: xp-layers.crossplane.io/v1alpha1
+    kind: XNetwork
+  patchSets:
+  - name: common-patches
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.providerConfigName
+      toFieldPath: spec.providerConfigRef.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.region
+      toFieldPath: spec.forProvider.region
+  mode: Resources
+  resources:
+  # VPC resource
+  - name: vpc
+    base:
+      apiVersion: ec2.aws.upbound.io/v1beta1
+      kind: VPC
+      spec:
+        forProvider:
+          region: us-west-2
+          cidrBlock: 192.168.0.0/16
+          enableDnsSupport: true
+          enableDnsHostnames: true
+        providerConfigRef:
+          name: default
+    patches:
+    - type: PatchSet
+      patchSetName: common-patches
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.id
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          type: Format
+          fmt: "vpc-%s"
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.id
+      toFieldPath: metadata.labels["xp-layers.crossplane.io/vpc-id"]
+      transforms:
+      - type: string
+        string:
+          type: Format
+          fmt: "vpc-%s"
+
+  # InternetGateway resource
+  - name: gateway
+    base:
+      apiVersion: ec2.aws.upbound.io/v1beta1
+      kind: InternetGateway
+      metadata:
+        name: gateway-0
+      spec:
+        forProvider:
+          region: us-west-2
+        providerConfigRef:
+          name: default
+    patches:
+    - type: PatchSet
+      patchSetName: common-patches
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.id
+      toFieldPath: metadata.name
+      transforms:
+      - type: string
+        string:
+          type: Format
+          fmt: "gateway-%s"
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.id
+      toFieldPath: spec.forProvider.vpcIdSelector.matchLabels["xp-layers.crossplane.io/vpc-id"]
+      transforms:
+      - type: string
+        string:
+          type: Format
+          fmt: "vpc-%s"

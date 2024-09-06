@@ -16,6 +16,39 @@
  Crossplane, all of which lead to a reliable and robust control plane to manage
  everything in the cloud that your organization could need!
 
- ## Layers of Crossplane
+## Layers of Crossplane
 
- 1. [Managed Resources](./managed-resources/)
+1. [Managed Resources](./01-managed-resources/)
+1. [Composition](./02-composition/)
+1. [Functions](./03-functions/)
+
+## Pre-Requisites
+
+Create a Kubernetes cluster, e.g. with `kind`:
+```
+kind create cluster
+```
+
+Install Crossplane from the `stable` release channel, e.g.:
+```
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+helm repo update
+helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane
+```
+
+Install the AWS provider:
+```
+kubectl apply -f provider.yaml
+```
+
+Wait for the AWS providers to become installed and healthy:
+```
+kubectl get pkg
+```
+
+Create credentials for the AWS provider to create resources in your AWS account:
+```
+AWS_PROFILE=default && echo -e "[default]\naws_access_key_id = $(aws configure get aws_access_key_id --profile $AWS_PROFILE)\naws_secret_access_key = $(aws configure get aws_secret_access_key --profile $AWS_PROFILE)" > aws-creds.txt
+kubectl create secret generic aws-creds -n crossplane-system --from-file=credentials=./aws-creds.txt
+kubectl apply -f provider-config-default.yaml
+```

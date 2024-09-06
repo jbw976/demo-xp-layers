@@ -1,0 +1,12 @@
+apiVersion: xp-layers.crossplane.io/v1alpha1
+kind: Network
+metadata:
+ name: network-simple-1
+ namespace: default
+spec:
+  id: "1"
+  providerConfigName: default
+  region: eu-central-1
+  compositionSelector:
+    matchLabels:
+      layer: composition

@@ -1,0 +1,12 @@
+apiVersion: ec2.aws.upbound.io/v1beta1
+kind: InternetGateway
+metadata:
+  name: gateway-0
+spec:
+  forProvider:
+    region: us-west-2
+    vpcIdSelector:
+      matchLabels:
+        xp-layers.crossplane.io/vpc-id: vpc-0
+  providerConfigRef:
+    name: default
