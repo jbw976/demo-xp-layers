@@ -1,9 +1,9 @@
 apiVersion: ec2.aws.upbound.io/v1beta1
 kind: VPC
 metadata:
-  name: vpc-1
+  name: vpc-mr-1
   labels:
-    xp-layers.crossplane.io/vpc-id: vpc-1
+    xp-layers.crossplane.io/vpc-id: vpc-mr-1
 spec:
   forProvider:
     region: us-west-2

@@ -44,7 +44,7 @@ spec:
       - type: string
         string:
           type: Format
-          fmt: "vpc-%s"
+          fmt: "vpc-comp-%s"
     - type: FromCompositeFieldPath
       fromFieldPath: spec.id
       toFieldPath: metadata.labels["xp-layers.crossplane.io/vpc-id"]
@@ -52,15 +52,13 @@ spec:
       - type: string
         string:
           type: Format
-          fmt: "vpc-%s"
+          fmt: "vpc-comp-%s"
 
   # InternetGateway resource
   - name: gateway
     base:
       apiVersion: ec2.aws.upbound.io/v1beta1
       kind: InternetGateway
-      metadata:
-        name: gateway-0
       spec:
         forProvider:
           region: us-west-2
@@ -76,7 +74,7 @@ spec:
       - type: string
         string:
           type: Format
-          fmt: "gateway-%s"
+          fmt: "gateway-comp-%s"
     - type: FromCompositeFieldPath
       fromFieldPath: spec.id
       toFieldPath: spec.forProvider.vpcIdSelector.matchLabels["xp-layers.crossplane.io/vpc-id"]
@@ -84,4 +82,4 @@ spec:
       - type: string
         string:
           type: Format
-          fmt: "vpc-%s"
+          fmt: "vpc-comp-%s"

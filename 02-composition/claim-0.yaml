@@ -1,7 +1,7 @@
 apiVersion: xp-layers.crossplane.io/v1alpha1
 kind: Network
 metadata:
- name: network-simple-0
+ name: network-comp-0
  namespace: default
 spec:
   id: "0"

@@ -31,15 +31,15 @@ Examine the resources that were created under the `Network` abstraction by the
 compositions, and note the hierarchy of the resources (claim -> composite
 resource -> composed resources):
 ```
-crossplane beta trace network.xp-layers.crossplane.io/network-simple-0
-crossplane beta trace network.xp-layers.crossplane.io/network-simple-1
+crossplane beta trace network.xp-layers.crossplane.io/network-comp-0
+crossplane beta trace network.xp-layers.crossplane.io/network-comp-1
 ```
 
 Once again, we can see that the `InternetGateway` was able to find its VPC via a
 selector, but this time we programmatically patched this selector with the label
 of its matching VPC:
 ```
-kubectl get internetgateway.ec2.aws.upbound.io/gateway-0 -o json | jq '.spec.forProvider.vpcIdSelector,.spec.forProvider.vpcId'
+kubectl get internetgateway.ec2.aws.upbound.io/gateway-comp-0 -o json | jq '.spec.forProvider.vpcIdSelector,.spec.forProvider.vpcId'
 ```
 
 ## Clean-up
