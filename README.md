@@ -21,6 +21,7 @@
 1. [Managed Resources](./01-managed-resources/)
 1. [Composition](./02-composition/)
 1. [Functions](./03-functions/)
+1. [Full Code](./04-full-code/)
 
 ## Pre-Requisites
 
