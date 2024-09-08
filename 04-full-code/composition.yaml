@@ -1,0 +1,20 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+ name: xp-layers.crossplane.io
+ labels:
+   layer: code
+   provider: aws
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: xp-layers.crossplane.io/v1alpha1
+    kind: XNetwork
+  mode: Pipeline
+  pipeline:
+  - step: run-func
+    functionRef:
+      name: demo-xfn-network
+  - step: ready
+    functionRef:
+      name: function-auto-ready

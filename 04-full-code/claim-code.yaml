@@ -1,0 +1,14 @@
+apiVersion: xp-layers.crossplane.io/v1alpha1
+kind: Network
+metadata:
+ name: network-code
+ namespace: default
+spec:
+  id: "code"
+  count: 2
+  includeGateway: true
+  providerConfigName: default
+  region: eu-central-1
+  compositionSelector:
+    matchLabels:
+      layer: code
