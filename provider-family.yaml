@@ -1,8 +1,8 @@
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: upbound-provider-aws-ec2
+  name: upbound-provider-aws-family
 spec:
-  package: xpkg.upbound.io/upbound/provider-aws-ec2:v1.13.0
+  package: xpkg.upbound.io/upbound/provider-family-aws:v1.13.0
   ignoreCrossplaneConstraints: true
   skipDependencyResolution: true

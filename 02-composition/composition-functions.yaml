@@ -1,0 +1,91 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  creationTimestamp: "2024-10-29T12:13:14Z"
+  labels:
+    layer: composition
+    provider: aws
+  name: xp-layers.crossplane.io
+spec:
+  compositeTypeRef:
+    apiVersion: xp-layers.crossplane.io/v1alpha1
+    kind: XNetwork
+  mode: Pipeline
+  pipeline:
+  - functionRef:
+      name: function-patch-and-transform
+    input:
+      apiVersion: pt.fn.crossplane.io/v1beta1
+      environment: null
+      kind: Resources
+      patchSets:
+      - name: common-patches
+        patches:
+        - fromFieldPath: spec.providerConfigName
+          toFieldPath: spec.providerConfigRef.name
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.region
+          toFieldPath: spec.forProvider.region
+          type: FromCompositeFieldPath
+      resources:
+      - base:
+          apiVersion: ec2.aws.upbound.io/v1beta1
+          kind: VPC
+          spec:
+            forProvider:
+              cidrBlock: 192.168.0.0/16
+              enableDnsHostnames: true
+              enableDnsSupport: true
+              region: us-west-2
+            providerConfigRef:
+              name: default
+        name: vpc
+        patches:
+        - patchSetName: common-patches
+          type: PatchSet
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.name
+          transforms:
+          - string:
+              fmt: vpc-comp-%s
+              type: Format
+            type: string
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.labels["xp-layers.crossplane.io/vpc-id"]
+          transforms:
+          - string:
+              fmt: vpc-comp-%s
+              type: Format
+            type: string
+          type: FromCompositeFieldPath
+      - base:
+          apiVersion: ec2.aws.upbound.io/v1beta1
+          kind: InternetGateway
+          spec:
+            forProvider:
+              region: us-west-2
+            providerConfigRef:
+              name: default
+        name: gateway
+        patches:
+        - patchSetName: common-patches
+          type: PatchSet
+        - fromFieldPath: spec.id
+          toFieldPath: metadata.name
+          transforms:
+          - string:
+              fmt: gateway-comp-%s
+              type: Format
+            type: string
+          type: FromCompositeFieldPath
+        - fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.vpcIdSelector.matchLabels["xp-layers.crossplane.io/vpc-id"]
+          transforms:
+          - string:
+              fmt: vpc-comp-%s
+              type: Format
+            type: string
+          type: FromCompositeFieldPath
+    step: patch-and-transform
+  writeConnectionSecretsToNamespace: crossplane-system
