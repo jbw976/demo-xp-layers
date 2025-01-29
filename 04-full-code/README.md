@@ -24,7 +24,7 @@ go run . --insecure --debug
 
 In another tab:
 ```
-cd examples
+cd example
 crossplane render xr.yaml composition.yaml functions.yaml -x -r
 ```
 
