@@ -4,5 +4,3 @@ metadata:
   name: upbound-provider-aws-ec2
 spec:
   package: xpkg.upbound.io/upbound/provider-aws-ec2:v1.13.0
-  ignoreCrossplaneConstraints: true
-  skipDependencyResolution: true

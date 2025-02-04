@@ -12,7 +12,8 @@ spec:
     kind: XNetwork
   mode: Pipeline
   pipeline:
-  - functionRef:
+  - step: patch-and-transform
+    functionRef:
       name: function-patch-and-transform
     input:
       apiVersion: pt.fn.crossplane.io/v1beta1
@@ -87,5 +88,7 @@ spec:
               type: Format
             type: string
           type: FromCompositeFieldPath
-    step: patch-and-transform
+  - step: ready
+    functionRef:
+      name: function-auto-ready
   writeConnectionSecretsToNamespace: crossplane-system
