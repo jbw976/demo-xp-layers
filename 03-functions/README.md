@@ -6,6 +6,8 @@ Create the Kubernetes cluster with Crossplane installed and the AWS provider
 configured as described in the main [README
 Pre-Requisites](../README.md#pre-requisites).
 
+The XRD must also have been created from [`02-composition`](../02-composition).
+
 ## Setup
 
 ```
