@@ -1,7 +1,7 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
- name: xp-layers.crossplane.io
+ name: namespaced-network-composition
  labels:
    layer: functions
    provider: aws
