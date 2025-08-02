@@ -4,12 +4,12 @@
  greatly over the years and there are now numerous layers you can interact with
  while designing and building your internal developer platform powered by
  Crossplane.
- 
+
  Should you directly declare the cloud resources you want Crossplane
  to create, should you create developer friendly simplified abstractions on top,
  should you stick with YAML or use a more full featured high level programming
  language?
- 
+
  We will explore each of these layers in further detail through live
  demos to understand and efficiently harness the capabilities and experience of
  each. This will be a broad tour through the possibilities offered by
@@ -22,6 +22,7 @@
 1. [Composition](./02-composition/)
 1. [Functions](./03-functions/)
 1. [Full Code](./04-full-code/)
+1. [Bonus! v2](./v2/)
 
 ## Pre-Requisites
 
