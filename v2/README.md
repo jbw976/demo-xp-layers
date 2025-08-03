@@ -77,5 +77,5 @@ Clean up all the created resources:
 ```
 kubectl delete -f xr-iteration.yaml
 kubectl delete -f xr-conditional.yaml
-kubectl get managed
+kubectl get managed -A
 ```
